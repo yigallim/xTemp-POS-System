@@ -13,3 +13,14 @@
         @apply h-px w-full bg-gray-400 my-4;
     }
 }
+
+.retail-banner {
+    max-height: 300px;
+    object-fit: cover;
+}
+
+@media (max-width: 640px) {
+    .retail-banner {
+        max-height: 250px;
+    }
+}
