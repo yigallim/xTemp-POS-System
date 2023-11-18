@@ -1,5 +1,5 @@
 import React from "react";
-import { retail } from "../../../config";
+import { retail } from "../../config";
 
 export default function CompanyInfo() {
     return (

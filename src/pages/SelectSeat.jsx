@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Select, Button, Card } from "antd";
 import { Link } from "react-router-dom";
-import { seatNumbers } from "../../config";
+import { seatNumbers } from "../config";
 
 const { Option } = Select;
 

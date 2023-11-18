@@ -1,17 +1,29 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Input } from "antd";
-import { foods, foodCategories } from "../../../config";
+import { foods, foodCategories } from "../config";
+import {
+    searchChange,
+    filterChange,
+} from "../redux/actions/search_food_action";
 const { Search } = Input;
 
-export default function Menu() {
+function Menu({ searchValue, filterValue, searchChange, filterChange }) {
     const filteredFoods = foodCategories.reduce((result, category) => {
         const categoryId = category.id;
         const categoryFoods = foods.filter(
-            (food) => food.categoryId === categoryId
+            (food) =>
+                food.categoryId === categoryId &&
+                (filterValue === "" ||
+                    food.name.toLowerCase().includes(filterValue.toLowerCase()))
         );
         result[categoryId] = categoryFoods;
         return result;
     }, {});
+
+    const handleSearchChange = (event) => searchChange(event.target.value);
+
+    const handleSearch = (value) => filterChange(value);
 
     return (
         <section className="pt-4 md:pt-6">
@@ -21,7 +33,13 @@ export default function Menu() {
             <div className="bg-primary h-1 w-16 mb-3 md:mb-5 mx-3 md:mx-8"></div>
 
             <div className="mx-3 md:mx-8">
-                <Search placeholder="search food name" allowClear />
+                <Search
+                    placeholder="search food name"
+                    allowClear
+                    onSearch={handleSearch}
+                    onChange={handleSearchChange}
+                    value={searchValue}
+                />
             </div>
 
             {Object.keys(filteredFoods).map((categoryId) => (
@@ -46,7 +64,7 @@ export default function Menu() {
                             >
                                 <img
                                     src={food.src}
-                                    alt="Loading Image"
+                                    alt={food.name + " png"}
                                     className="food-img bg-gray-300 rounded-md w-20 h-20 md:w-28 md:h-28 object-cover flex-shrink-0"
                                 />
                                 <div className="pl-3 md:pl-5 flex justify-between w-full">
@@ -70,3 +88,14 @@ export default function Menu() {
         </section>
     );
 }
+
+export default connect(
+    state => ({
+        searchValue: state.searchFoodReducer.search,
+        filterValue: state.searchFoodReducer.filter,
+    }),
+    {
+        searchChange,
+        filterChange,
+    }
+)(Menu);
