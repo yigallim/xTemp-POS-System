@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import SelectSeat from "./pages/SelectSeat";
 import Ordering from "./pages/Ordering";
+import FoodCustomize from "./pages/FoodCustomize";
 import { colors, seatNumbers } from "./config";
 
 export default function App() {
@@ -15,15 +16,22 @@ export default function App() {
         >
             <Routes>
                 <Route path="/" element={<SelectSeat />} />
+                <Route path={"/:seat/:foodId"} element={<FoodCustomize />} />
                 <Route path="/:seat" element={<CheckSeatNumberRedirect />} />
-                <Route path="*" element={<Navigate to="/" />} />
+                <Route path="*" element={<Navigate to="/" />}/>
             </Routes>
         </ConfigProvider>
     );
 }
 
 function CheckSeatNumberRedirect() {
-    const seatNumber = window.location.pathname.substring(1);
-    if (seatNumbers.includes(seatNumber)) return <Ordering />;
+    const parts = window.location.pathname.split('/');
+    const seatNumber = parts[1];
+    console.log(seatNumber);
+
+    const isExactSeat = seatNumbers.some((number) => number === seatNumber);
+
+    if (isExactSeat) return <Ordering />;
     else return <Navigate to="/" />;
+    
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Input } from "antd";
+import { Link } from "react-router-dom";
+import { PlusOutlined } from "@ant-design/icons";
 import { foods, foodCategories } from "../config";
 import {
     searchChange,
@@ -8,7 +10,7 @@ import {
 } from "../redux/actions/search_food_action";
 const { Search } = Input;
 
-function Menu({ searchValue, filterValue, searchChange, filterChange }) {
+function Menu({ searchValue, filterValue, searchChange, filterChange, seat }) {
     const filteredFoods = foodCategories.reduce((result, category) => {
         const categoryId = category.id;
         const categoryFoods = foods.filter(
@@ -65,7 +67,7 @@ function Menu({ searchValue, filterValue, searchChange, filterChange }) {
                                 <img
                                     src={food.src}
                                     alt={food.name + " png"}
-                                    className="food-img bg-gray-300 rounded-md w-20 h-20 md:w-28 md:h-28 object-cover flex-shrink-0"
+                                    className="food-img bg-gray-300 rounded-md w-20 h-20 md:w-28 md:h-28 object-cover flex-shrink-0 select-none"
                                 />
                                 <div className="pl-3 md:pl-5 flex justify-between w-full">
                                     <div>
@@ -76,8 +78,13 @@ function Menu({ searchValue, filterValue, searchChange, filterChange }) {
                                             {food.description}
                                         </p>
                                     </div>
-                                    <div className="ml-3 font-semibold md:text-lg">
-                                        {parseFloat(food.price).toFixed(2)}
+                                    <div className="ml-3 font-semibold md:text-lg text-right ">
+                                        <p>
+                                            {parseFloat(food.price).toFixed(2)}
+                                        </p>
+                                        <Link to={`customize-${food.id}`}>
+                                            <PlusOutlined className="mt-3 md:mt-4 bg-primary text-white p-1 md:p-1.5 cursor-pointer rounded-3xl"/>
+                                        </Link>
                                     </div>
                                 </div>
                             </li>
@@ -90,7 +97,7 @@ function Menu({ searchValue, filterValue, searchChange, filterChange }) {
 }
 
 export default connect(
-    state => ({
+    (state) => ({
         searchValue: state.searchFoodReducer.search,
         filterValue: state.searchFoodReducer.filter,
     }),

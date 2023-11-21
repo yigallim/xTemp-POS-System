@@ -32,11 +32,17 @@ export const retail = {
     tel: "018-3862118",
 };
 
+const takeawayCharge = 0.5;
+
+const sizeCustomize1 = { name: "Size", value: ["Small, Medium, Large"] };
+const sizeCustomize2 = { name: "Size", value: ["Small, Large"] };
+const drinkCustomize = { name: "Temperature", value: ["Hot", "Iced"]};
+
 export const foodCategories = [
-    { id: 1, name: "APPETIZER" },
-    { id: 2, name: "RAMEN" },
-    { id: 3, name: "JAPANESE CHUKA CUISINE" },
-    { id: 4, name: "DRINKS" },
+    { id: 1, name: "APPETIZER", customize: [sizeCustomize2] },
+    { id: 2, name: "RAMEN", customize: [sizeCustomize1] },
+    { id: 3, name: "JAPANESE CHUKA CUISINE", customize: [sizeCustomize1] },
+    { id: 4, name: "DRINKS", customize: [sizeCustomize2, drinkCustomize] },
 ];
 
 export const foods = [
@@ -47,7 +53,7 @@ export const foods = [
         description:
             "Pork meat, Chives, Cabbage, Wine, Seasoning with Shikomi Soy Sauce",
         price: 6.99,
-        src: "img/A1.png",
+        src: "/img/A1.png",
     },
     {
         id: "A2",
@@ -55,7 +61,7 @@ export const foods = [
         categoryId: 1,
         description: "Deep Fried Chicken, Marinated with Gyokai Shoyu Sauce",
         price: 9.99,
-        src: "img/A2.png",
+        src: "/img/A2.png",
     },
     {
         id: "A3",
@@ -63,16 +69,16 @@ export const foods = [
         categoryId: 1,
         description: "Octopus, tempura scraps, and green onions",
         price: 6.99,
-        src: "img/A3.png",
+        src: "/img/A3.png",
     },
     {
         id: "A4",
-        name: "Friend Squid Tentacles",
+        name: "Fried Squid Tentacles",
         categoryId: 1,
         description:
             "Deep Fried Tentacles marinated with Japanese Sauce and served with Lemon & Mayo",
         price: 6.99,
-        src: "img/A4.png",
+        src: "/img/A4.png",
     },
     {
         id: "A5",
@@ -80,7 +86,7 @@ export const foods = [
         categoryId: 1,
         description: "Long Cabbage Pickled with Japanese Hot Chili Paste",
         price: 5.99,
-        src: "img/A5.png",
+        src: "/img/A5.png",
     },
     {
         id: "A6",
@@ -89,7 +95,7 @@ export const foods = [
         description:
             "Sous Vide Chicken Meat, Cucumber, Tomato dressed with Sesame Sauce",
         price: 12.99,
-        src: "img/A6.png",
+        src: "/img/A6.png",
     },
     {
         id: "R1",
@@ -98,7 +104,7 @@ export const foods = [
         description:
             "Pork Charsiu, Pickles, Boiled Egg, Black Fungus, Onion, Spicy Miso. *Pork Soup Base",
         price: 19.99,
-        src: "img/R1.png",
+        src: "/img/R1.png",
     },
     {
         id: "R2",
@@ -107,7 +113,7 @@ export const foods = [
         description:
             "Premium Egg Yolk, Spicy Meat Paste, Pork Charsiu, Pickles, Fish Paste, Seaweed, Onion. *A Touch of Fish Soup Base",
         price: 15.99,
-        src: "img/R2.png",
+        src: "/img/R2.png",
     },
     {
         id: "R3",
@@ -116,7 +122,7 @@ export const foods = [
         description:
             "Sous Vide Chicken &amp; Pork Charsiu, Bamboo Shoot, Boiled Egg, Onion. *Chicken &amp; Fish Soup Base",
         price: 17.5,
-        src: "img/R3.png",
+        src: "/img/R3.png",
     },
     {
         id: "R4",
@@ -125,7 +131,7 @@ export const foods = [
         description:
             "Sous Vide Pork Charsiu, Mackerel Can Meat, Fish Powder, Black Fungus.",
         price: 21.5,
-        src: "img/R4.png",
+        src: "/img/R4.png",
     },
     {
         id: "R5",
@@ -134,7 +140,7 @@ export const foods = [
         description:
             "2 type of charsius, smoked duck, mini oyster,boiled egg, veggie,onion and seaweed",
         price: 26.99,
-        src: "img/R5.png",
+        src: "/img/R5.png",
     },
     {
         id: "C1",
@@ -143,7 +149,7 @@ export const foods = [
         description:
             "Pork Meat, Shrimp, Squid, Quail Egg, Fungus, Bamboo Shoot, Shitake & Veggie",
         price: 18.6,
-        src: "img/C1.png",
+        src: "/img/C1.png",
     },
     {
         id: "C2",
@@ -151,7 +157,7 @@ export const foods = [
         categoryId: 3,
         description: "Pork Mince Miso, Tofu, Spicy Hot Sace, Onion",
         price: 12.99,
-        src: "img/C2.png",
+        src: "/img/C2.png",
     },
     {
         id: "C3",
@@ -159,7 +165,7 @@ export const foods = [
         categoryId: 3,
         description: "Fried-Fish cooked with Sour Shoyu",
         price: 25.99,
-        src: "img/C3.png",
+        src: "/img/C3.png",
     },
     {
         id: "C4",
@@ -168,7 +174,7 @@ export const foods = [
         description:
             "Deep Fried Chicken, Marinated with Namban Sauce served with Tartar Sauce",
         price: 15.5,
-        src: "img/C4.png",
+        src: "/img/C4.png",
     },
     {
         id: "D1",
@@ -176,7 +182,7 @@ export const foods = [
         categoryId: 4,
         description: "",
         price: 4.5,
-        src: "img/D1.png",
+        src: "/img/D1.png",
     },
     {
         id: "D2",
@@ -184,7 +190,7 @@ export const foods = [
         categoryId: 4,
         description: "",
         price: 8.99,
-        src: "img/D2.png",
+        src: "/img/D2.png",
     },
     {
         id: "D3",
@@ -192,7 +198,7 @@ export const foods = [
         categoryId: 4,
         description: "",
         price: 5.5,
-        src: "img/D3.png",
+        src: "/img/D3.png",
     },
     {
         id: "D4",
@@ -200,7 +206,7 @@ export const foods = [
         categoryId: 4,
         description: "",
         price: 5.5,
-        src: "img/D4.png",
+        src: "/img/D4.png",
     },
     {
         id: "D5",
@@ -208,6 +214,6 @@ export const foods = [
         categoryId: 4,
         description: "",
         price: 1.5,
-        src: "img/D5.png",
+        src: "/img/D5.png",
     },
 ];
