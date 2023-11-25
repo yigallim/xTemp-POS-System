@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { LeftOutlined } from "@ant-design/icons";
 import { Row, Col, Radio, Space, Input, Checkbox } from "antd";
-
 import BottomBar from "../components/Ordering/BottomBar";
 import QuantityControl from "../components/Ordering/QuantityControl";
+import { useApi } from "../context/ApiProvider";
 import { bottomBarType, colors, foodCategories, foods } from "../config";
 
-export default function FoodCustomize({ api }) {
+export default function FoodCustomize() {
+  const api = useApi();
   const navigate = useNavigate();
   const { seat, foodId } = useParams();
   const [quantity, setQuantity] = useState(1);
@@ -93,7 +94,7 @@ export default function FoodCustomize({ api }) {
   };
 
   return (
-    <div className="min-h-screen md:mx-28 lg:mx-60 md:border-x md:shadow-2xl pb-16 bg-slate-100">
+    <div className="min-h-screen md:mx-28 lg:mx-60 md:border-x md:shadow-2xl pb-20 bg-slate-100">
       <Row gutter={[0, 10]}>
         <Col span={24} className="border-b border-gray-300 bg-white">
           <div className="h-48 md:h-64 lg:h-80 overflow-hidden">

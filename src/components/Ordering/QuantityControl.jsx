@@ -20,15 +20,19 @@ export default function QuantityControl({ initialQuantity = 1, minQuantity, onQu
 
   return (
     <div className="flex items-center border rounded-full overflow-hidden h-fit mt-1.5">
-      <MinusOutlined
-        className="bg-gray-200 p-2.5 cursor-pointer rounded-full"
-        onClick={handleDecrease}
-      />
+      <button>
+        <MinusOutlined
+          className="bg-gray-200 p-2.5 cursor-pointer rounded-full"
+          onClick={handleDecrease}
+        />
+      </button>
       <span className="mx-2 select-none">{quantity}</span>
-      <PlusOutlined
-        className="bg-primary text-white p-2.5 cursor-pointer rounded-full"
-        onClick={handleIncrease}
-      />
+      <button>
+        <PlusOutlined
+          className="bg-primary text-white p-2.5 cursor-pointer rounded-full"
+          onClick={handleIncrease}
+        />
+      </button>
     </div>
   );
 }

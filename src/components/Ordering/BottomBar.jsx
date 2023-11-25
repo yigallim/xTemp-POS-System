@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { ShoppingCartOutlined, SettingOutlined } from "@ant-design/icons";
+import ChangeSeat from "./ChangeSeat";
 import { colors, bottomBarType } from "../../config";
 
 export default function BottomBar({ seat, type, onConfirm, price }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const openModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
   let content;
 
   if (type === bottomBarType.ordering) {
@@ -13,10 +24,12 @@ export default function BottomBar({ seat, type, onConfirm, price }) {
       >
         <div className="flex items-center space-x-2 justify-between bg-white p-3 md:pl-7 flex-1">
           <p>Table No. {seat}</p>
-          <SettingOutlined
-            style={{ fontSize: "24px" }}
-            className="bg-slate-200 p-1.5 md:p-2 cursor-pointer rounded-full  "
-          />
+          <button onClick={openModal}>
+            <SettingOutlined
+              style={{ fontSize: "24px" }}
+              className="bg-slate-200 p-1.5 md:p-2 cursor-pointer rounded-full"
+            />
+          </button>
         </div>
         <div className="flex items-center space-x-2 justify-between bg-primary p-3 md:pr-7 flex-1">
           <ShoppingCartOutlined
@@ -29,6 +42,8 @@ export default function BottomBar({ seat, type, onConfirm, price }) {
           />
           <p className="text-white">RM 50.00</p>
         </div>
+
+        <ChangeSeat isModalVisible={isModalVisible} closeModal={closeModal} />
       </div>
     );
   } else if (type === bottomBarType.customizingFood) {

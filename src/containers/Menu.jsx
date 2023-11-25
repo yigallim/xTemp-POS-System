@@ -7,7 +7,7 @@ import { foods, foodCategories } from "../config";
 import { searchChange, filterChange } from "../redux/actions/search_food_action";
 const { Search } = Input;
 
-function Menu({ searchValue, filterValue, searchChange, filterChange, seat }) {
+function Menu({ searchValue, filterValue, searchChange, filterChange }) {
   const filteredFoods = foodCategories.reduce((result, category) => {
     const categoryId = category.id;
     const categoryFoods = foods.filter(

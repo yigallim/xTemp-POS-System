@@ -12,7 +12,7 @@ export default function Ordering() {
     <div className="md:mx-28 lg:mx-60 md:border-x md:shadow-2xl h-full pb-20">
       <CompanyInfo />
       <NavBar />
-      <Menu seat={seat} />
+      <Menu />
       <BottomBar seat={seat} type={bottomBarType.ordering} />
     </div>
   );

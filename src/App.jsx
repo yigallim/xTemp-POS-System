@@ -3,6 +3,7 @@ import { ConfigProvider, notification } from "antd";
 import SelectSeat from "./pages/SelectSeat";
 import Ordering from "./pages/Ordering";
 import FoodCustomize from "./pages/FoodCustomize";
+import { ApiProvider } from "./context/ApiProvider";
 import { colors, seatNumbers } from "./config";
 
 export default function App() {
@@ -19,12 +20,14 @@ export default function App() {
       }}
     >
       {contextHolder}
-      <Routes>
-        <Route path="/" element={<SelectSeat />} />
-        <Route path={"/:seat/:foodId"} element={<FoodCustomize api={api} />} />
-        <Route path="/:seat" element={<CheckSeatNumberRedirect />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+      <ApiProvider api={api}>
+        <Routes>
+          <Route path="/" element={<SelectSeat />} />
+          <Route path={"/:seat/:foodId"} element={<FoodCustomize />} />
+          <Route path="/:seat" element={<CheckSeatNumberRedirect />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </ApiProvider>
     </ConfigProvider>
   );
 }
