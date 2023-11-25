@@ -1,11 +1,15 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, notification } from "antd";
 import SelectSeat from "./pages/SelectSeat";
 import Ordering from "./pages/Ordering";
 import FoodCustomize from "./pages/FoodCustomize";
 import { colors, seatNumbers } from "./config";
 
 export default function App() {
+    const [api, contextHolder] = notification.useNotification({
+        maxCount: 3,
+        top: 12,
+    });
     return (
         <ConfigProvider
             theme={{
@@ -14,9 +18,10 @@ export default function App() {
                 },
             }}
         >
+            {contextHolder}
             <Routes>
                 <Route path="/" element={<SelectSeat />} />
-                <Route path={"/:seat/:foodId"} element={<FoodCustomize />} />
+                <Route path={"/:seat/:foodId"} element={<FoodCustomize api={api}/>} />
                 <Route path="/:seat" element={<CheckSeatNumberRedirect />} />
                 <Route path="*" element={<Navigate to="/" />}/>
             </Routes>
@@ -27,7 +32,6 @@ export default function App() {
 function CheckSeatNumberRedirect() {
     const parts = window.location.pathname.split('/');
     const seatNumber = parts[1];
-    console.log(seatNumber);
 
     const isExactSeat = seatNumbers.some((number) => number === seatNumber);
 

@@ -25,6 +25,11 @@ export const colors = {
     primary: "#fb923c",
 };
 
+export const bottomBarType = {
+    ordering: "ordering",
+    customizingFood: "cuztomizingFood"
+}
+
 export const retail = {
     name: "Halo Ramen",
     address:
@@ -32,17 +37,39 @@ export const retail = {
     tel: "018-3862118",
 };
 
-const takeawayCharge = 0.5;
+const sizeCustomize1 = {
+    id: 1,
+    name: "Size",
+    value: [
+        { name: "Small", priceDiffer: 0 },
+        { name: "Medium", priceDiffer: 1.50 },
+        { name: "Large", priceDiffer: 3 },
+    ],
+};
 
-const sizeCustomize1 = { name: "Size", value: ["Small, Medium, Large"] };
-const sizeCustomize2 = { name: "Size", value: ["Small, Large"] };
-const drinkCustomize = { name: "Temperature", value: ["Hot", "Iced"]};
+const sizeCustomize2 = {
+    id: 2,
+    name: "Size",
+    value: [
+        { name: "Small", priceDiffer: 0 },
+        { name: "Large", priceDiffer: 2 },
+    ],
+};
+
+const drinkCustomize = {
+    id: 3,
+    name: "Temperature",
+    value: [
+        { name: "Hot", priceDiffer: 0 },
+        { name: "Iced", priceDiffer: 0.5 },
+    ],
+};
 
 export const foodCategories = [
-    { id: 1, name: "APPETIZER", customize: [sizeCustomize2] },
-    { id: 2, name: "RAMEN", customize: [sizeCustomize1] },
-    { id: 3, name: "JAPANESE CHUKA CUISINE", customize: [sizeCustomize1] },
-    { id: 4, name: "DRINKS", customize: [sizeCustomize2, drinkCustomize] },
+    { id: 1, name: "APPETIZER", customize: [sizeCustomize2], takeawayCharge: 0.3 },
+    { id: 2, name: "RAMEN", customize: [sizeCustomize1], takeawayCharge: 0.5 },
+    { id: 3, name: "JAPANESE CHUKA CUISINE", customize: [sizeCustomize1], takeawayCharge: 0.5 },
+    { id: 4, name: "DRINKS", customize: [sizeCustomize2, drinkCustomize], takeawayCharge: 0.3 },
 ];
 
 export const foods = [

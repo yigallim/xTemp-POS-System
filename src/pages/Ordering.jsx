@@ -4,6 +4,7 @@ import CompanyInfo from "../components/Ordering/CompanyInfo";
 import NavBar from "../containers/NavBar";
 import Menu from "../containers/Menu";
 import BottomBar from "../components/Ordering/BottomBar";
+import { bottomBarType } from "../config";
 
 export default function Ordering() {
     const { seat } = useParams();
@@ -12,7 +13,7 @@ export default function Ordering() {
             <CompanyInfo />
             <NavBar />
             <Menu seat={seat} />
-            <BottomBar seat={seat} />
+            <BottomBar seat={seat} type={bottomBarType.ordering}/>
         </div>
     );
 }
