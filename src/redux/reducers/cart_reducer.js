@@ -10,9 +10,7 @@ export default function searchFoodReducer(previousState = initialState, action) 
       return [...previousState, payload];
 
     case UPDATE_FOOD:
-      return previousState.map((entry) =>
-        entry.id === payload.id ? payload : entry
-      );
+      return previousState.map((entry) => (entry.id === payload.id ? payload : entry));
 
     case DELETE_FOOD:
       return previousState.filter((entry) => entry.id !== payload);

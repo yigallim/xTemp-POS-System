@@ -1,10 +1,9 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import searchFoodReducer from './reducers/search_food-reducer';
-import thunk from 'redux-thunk';
-
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import searchFoodReducer from "./reducers/search_food-reducer";
+import thunk from "redux-thunk";
 
 const reducers = combineReducers({
-    searchFoodReducer
+  searchFoodReducer,
 });
 
 const store = configureStore({
@@ -13,8 +12,3 @@ const store = configureStore({
 });
 
 export default store;
-
-
-
-
-
