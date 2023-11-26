@@ -3,7 +3,7 @@ import { ShoppingCartOutlined, SettingOutlined } from "@ant-design/icons";
 import ChangeSeat from "./ChangeSeat";
 import { colors, bottomBarType } from "../../config";
 
-export default function BottomBar({ seat, type, onConfirm, price }) {
+export default function BottomBar({ seat, type, cartAmount, onConfirm, price }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const openModal = () => {
@@ -40,7 +40,7 @@ export default function BottomBar({ seat, type, onConfirm, price }) {
             }}
             className="bg-white p-1.5 md:p-2 cursor-pointer rounded-full"
           />
-          <p className="text-white">RM 50.00</p>
+          <p className="text-white">RM {parseFloat(cartAmount).toFixed(2)}</p>
         </div>
 
         <ChangeSeat isModalVisible={isModalVisible} closeModal={closeModal} />

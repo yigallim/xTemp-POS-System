@@ -2,84 +2,95 @@ import React, { useState, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { LeftOutlined } from "@ant-design/icons";
 import { Row, Col, Radio, Space, Input, Checkbox } from "antd";
+import localStorage from "local-storage";
 import BottomBar from "../components/Ordering/BottomBar";
 import QuantityControl from "../components/Ordering/QuantityControl";
 import { useApi } from "../context/ApiProvider";
+import { calculateItemPrice } from "../utils/calculatePrice";
 import { bottomBarType, colors, foodCategories, foods } from "../config";
 
 export default function FoodCustomize() {
   const api = useApi();
   const navigate = useNavigate();
   const { seat, foodId } = useParams();
-  const [quantity, setQuantity] = useState(1);
-  const [takeaway, setTakeaway] = useState(false);
-  const [selectedCustomization, setSelectedCustomization] = useState([]);
-  const remarksRef = useRef("");
-  const canAddToCartRef = useRef(false);
 
   const actualFoodId = foodId.substring("customize-".length);
   const food = foods.find((item) => item.id === actualFoodId);
   const foodCategory = foodCategories.find((category) => category.id === food.categoryId);
+  
+  const [foodEntry, setFoodEntry] = useState({
+    foodId: food.id,
+    categoryId: food.categoryId,
+    quantity: 1,
+    customize: [],
+    isTakeaway: false,
+    remarks: "",
+  });
+
+  const canAddToCartRef = useRef(false);
 
   useEffect(() => {
     const allCustomizationsSelected =
       foodCategory.customize &&
       foodCategory.customize.every((customization) =>
-        selectedCustomization.some((selected) => selected.id === customization.id)
+      foodEntry.customize.some((selected) => selected.id === customization.id)
       );
     canAddToCartRef.current = allCustomizationsSelected;
-  }, [selectedCustomization, foodCategory.customize]);
+  }, [foodEntry.customize, foodCategory.customize]);
 
-  const handleTakeawayChange = (event) => setTakeaway(event.target.checked);
+  const handleTakeawayChange = (event) => setFoodEntry({ ...foodEntry, isTakeaway: event.target.checked });
 
   const handleCustomizationChange = (id, value) => {
+    const selectedCustomization = foodEntry.customize;
     const updatedCustomize = [...selectedCustomization.filter((c) => c.id !== id), { id, value }];
-    setSelectedCustomization(updatedCustomize);
+    setFoodEntry({...foodEntry, customize : updatedCustomize});
   };
 
-  const handleRemarksChange = (event) => (remarksRef.current = event.target.value);
+  const handleRemarksChange = (event) => (setFoodEntry({ ...foodEntry , remarks: event.target.value}));
 
-  const handleQuantityChange = (newQuantity) => setQuantity(newQuantity);
-
-  const calculateCustomizationTotal = () => {
-    return selectedCustomization.reduce((total, customization) => {
-      const selectedValueObject = foodCategories
-        .flatMap((category) => category.customize)
-        .flatMap((customize) => customize.value)
-        .find((value) => value.name === customization.value);
-      return total + (selectedValueObject ? selectedValueObject.priceDiffer : 0);
-    }, 0);
-  };
-
-  const totalPrice = () => {
-    const basePrice = parseFloat(food.price);
-    const customizationTotal = calculateCustomizationTotal();
-    return (
-      (basePrice + customizationTotal + (takeaway ? foodCategory.takeawayCharge : 0)) * quantity
-    );
-  };
+  const handleQuantityChange = (newQuantity) => setFoodEntry({ ...foodEntry, quantity: newQuantity });
 
   const addFoodToCart = () => {
-    const foodEntry = {
-      foodId: food.id,
-      categoryId: food.categoryId,
-      quantity: quantity,
-      customize: selectedCustomization,
-      isTakeaway: takeaway,
-      remarks: remarksRef.current,
-    };
     if (canAddToCartRef.current) {
-      navigate(`/${seat}`);
-      api["success"]({
-        message: "Item Added to Cart",
-        description: `You added ${quantity} ${food.name}.`,
-        duration: 1.5,
-        placement: "top",
-        style: {
-          padding: "1.2em 0em 1em 1.5em",
-        },
-      });
+      const existingCartItems = localStorage.get("cartItems") || [];
+      const existingItemIndex = existingCartItems.findIndex(
+        (item) =>
+          item.foodId === food.id &&
+          JSON.stringify(item.customize) === JSON.stringify(foodEntry.customize) &&
+          item.isTakeaway === foodEntry.isTakeaway 
+      );
+
+      if (existingItemIndex !== -1) {
+        existingCartItems[existingItemIndex].quantity += foodEntry.quantity;
+        existingCartItems[existingItemIndex].remarks += `\n${foodEntry.remarks}`;
+      } else 
+          existingCartItems.push(foodEntry);
+      
       console.log(foodEntry);
+      localStorage.set("cartItems", existingCartItems);
+      navigate(`/${seat}`);
+
+      if (existingItemIndex !== -1) {
+        api["success"]({
+          message: "Item Quantity Updated in Cart",
+          description: `You updated the quantity of ${food.name} in your cart.`,
+          duration: 1.5,
+          placement: "top",
+          style: {
+            padding: "1.2em 0em 1em 1.5em",
+          },
+        });
+      } else {
+        api["success"]({
+          message: "Item Added to Cart",
+          description: `You added ${foodEntry.quantity} ${food.name} to your cart.`,
+          duration: 1.5,
+          placement: "top",
+          style: {
+            padding: "1.2em 0em 1em 1.5em",
+          },
+        });
+      }
     } else {
       api["error"]({
         message: "Unable to Add to Cart",
@@ -157,7 +168,7 @@ export default function FoodCustomize() {
         <Col span={24} className="border-y border-gray-300 bg-white">
           <h3 className="font-semibold py-2 px-5 text-base">Takeaway</h3>
           <div className="border-t border-gray-300 py-2 px-5 flex justify-between">
-            <Checkbox checked={takeaway} onChange={handleTakeawayChange}>
+            <Checkbox checked={foodEntry.isTakeaway} onChange={handleTakeawayChange}>
               Takeaway Charge
             </Checkbox>
             <p className="text-slate-600">+ {foodCategory.takeawayCharge.toFixed(2)}</p>
@@ -180,7 +191,7 @@ export default function FoodCustomize() {
       <BottomBar
         type={bottomBarType.customizingFood}
         onConfirm={addFoodToCart}
-        price={totalPrice()}
+        price={calculateItemPrice(foodEntry)}
       />
     </div>
   );
