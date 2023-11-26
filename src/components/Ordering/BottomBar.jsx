@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ShoppingCartOutlined, SettingOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 import ChangeSeat from "./ChangeSeat";
 import { colors, bottomBarType } from "../../config";
 
@@ -32,14 +33,16 @@ export default function BottomBar({ seat, type, cartAmount, onConfirm, price }) 
           </button>
         </div>
         <div className="flex items-center space-x-2 justify-between bg-primary p-3 md:pr-7 flex-1">
-          <ShoppingCartOutlined
-            style={{
-              fontSize: "24px",
-              color: colors.primary,
-              fontWeight: "900",
-            }}
-            className="bg-white p-1.5 md:p-2 cursor-pointer rounded-full"
-          />
+          <Link to={`/${seat}/cart`}>
+            <ShoppingCartOutlined
+              style={{
+                fontSize: "24px",
+                color: colors.primary,
+                fontWeight: "900",
+              }}
+              className="bg-white p-1.5 md:p-2 cursor-pointer rounded-full"
+            />
+          </Link>
           <p className="text-white">RM {parseFloat(cartAmount).toFixed(2)}</p>
         </div>
 
